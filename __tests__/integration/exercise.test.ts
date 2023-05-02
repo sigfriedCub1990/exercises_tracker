@@ -55,7 +55,7 @@ describe("Data access layer tests for Exercise", () => {
     expect(await exerciseDb.findById(exercise._id.toString())).toMatchObject({
       id: expect.any(String),
       description: expect.any(String),
-      date: expect.any(Date),
+      date: expect.any(String),
       duration: expect.any(Number),
     });
   });
