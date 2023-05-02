@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
-const onConnected = () => console.log("MongoDB connected");
+const onConnected = () => {
+  if (process.env.NODE_ENV !== "test") {
+    console.log("MongoDB connected");
+  }
+};
 const onError = (error: Error) => console.error(error.message);
 
 let db;
