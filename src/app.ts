@@ -2,12 +2,16 @@ import { Request, Response, NextFunction } from "express";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import connectDb from "./db";
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
+
+const mongoURI = process.env.MONGO_URI || "";
+connectDb(mongoURI);
 
 app.get("/", (req, res) => {
   res.json({ message: "Hello, world!" });
