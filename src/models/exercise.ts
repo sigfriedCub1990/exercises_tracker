@@ -1,9 +1,10 @@
-import { Schema } from "mongoose";
+import { Schema, Types } from "mongoose";
 
 interface IExercise {
   description: string;
   duration: number;
   date?: string;
+  username?: Types.ObjectId;
 }
 
 const exerciseSchema = new Schema<IExercise>({
@@ -16,9 +17,10 @@ const exerciseSchema = new Schema<IExercise>({
     required: true,
   },
   date: {
-    type: Date,
-    default: Date.now(),
+    type: String,
+    default: new Date().toDateString(),
   },
+  username: { type: Schema.Types.ObjectId, ref: "Person" },
 });
 
 export { exerciseSchema as default, IExercise };
