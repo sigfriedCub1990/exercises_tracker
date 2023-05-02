@@ -1,8 +1,8 @@
 import models from "../models";
-import makePersonDb from "./person.db";
+import makeUserDb from "./user.db";
 import makeExerciseDb from "./exercise.db";
 
-const personDb = makePersonDb(models);
+const userDb = makeUserDb(models);
 const exerciseDb = makeExerciseDb(models);
 
-export { personDb, exerciseDb };
+export { userDb, exerciseDb };

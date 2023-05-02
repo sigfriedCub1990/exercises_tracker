@@ -20,7 +20,7 @@ const exerciseSchema = new Schema<IExercise>({
     type: String,
     default: new Date().toDateString(),
   },
-  username: { type: Schema.Types.ObjectId, ref: "Person" },
+  username: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 export { exerciseSchema as default, IExercise };

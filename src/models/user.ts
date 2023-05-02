@@ -1,11 +1,11 @@
 import { Schema, Types } from "mongoose";
 
-interface IPerson {
+interface IUser {
   username: string;
   log?: Array<Types.ObjectId>;
 }
 
-const personSchema = new Schema<IPerson>({
+const userSchema = new Schema<IUser>({
   username: {
     type: String,
     required: true,
@@ -13,4 +13,4 @@ const personSchema = new Schema<IPerson>({
   log: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
 });
 
-export { personSchema as default, IPerson };
+export { userSchema as default, IUser };
