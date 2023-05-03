@@ -1,6 +1,6 @@
 import { Model, FilterQuery } from "mongoose";
-import { IUser } from "src/models/user";
-import { IExercise } from "src/models/exercise";
+import { IUser } from "../models/user";
+import { IExercise } from "..//models/exercise";
 import * as r from "ramda";
 
 // TODO:

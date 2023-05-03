@@ -13,7 +13,13 @@ describe("API tests", () => {
 
   describe("when requesting /api/users", () => {
     describe("when POST to /api/users", () => {
-      it.todo("should create a new user");
+      it("should create a new user", async () => {
+        const response = await supertest(app)
+          .post("/api/user")
+          .send("username=pandushki");
+
+        expect(response.body).toContainAllKeys(["_id", "username"]);
+      });
     });
 
     describe("when GET to /api/users", () => {
