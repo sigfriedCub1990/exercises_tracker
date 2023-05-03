@@ -7,8 +7,9 @@
     "esModuleInterop": true,
 
     /* Type Checking */
-    "strict": true /* Enable all strict type-checking options. */,
+    "strict": true,
     "skipLibCheck": true
   },
-  "files": ["global.d.ts"]
+  "files": ["global.d.ts"],
+  "include": ["src/**/*", "__tests__/**/*"]
 }
