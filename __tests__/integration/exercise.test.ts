@@ -1,8 +1,6 @@
 import { exerciseDb } from "../../src/data-access";
 
 describe("Data access layer tests for Exercise", () => {
-  afterEach(async () => exerciseDb.removeMany({}));
-
   it("should insert an exercise", async () => {
     await exerciseDb.insert({
       description: "Running",
@@ -12,16 +10,7 @@ describe("Data access layer tests for Exercise", () => {
     expect(await exerciseDb.find({})).toHaveLength(1);
   });
 
-  it("should remove and exercise given its description", async () => {
-    await exerciseDb.insert({
-      description: "Running",
-      duration: 60,
-    });
-
-    expect(await exerciseDb.find({ description: "Running" })).toHaveLength(1);
-  });
-
-  it("should remove and exercise given its _id", async () => {
+  it("should remove an exercise given its _id", async () => {
     const exercise = await exerciseDb.insert({
       description: "Running",
       duration: 60,

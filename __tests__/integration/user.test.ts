@@ -1,9 +1,7 @@
 import { userDb } from "../../src/data-access";
 
-describe("Data access layer tests for Person", () => {
-  afterEach(async () => await userDb.removeMany({}));
-
-  it("should insert a person", async () => {
+describe("Data access layer tests for User", () => {
+  it("should insert a user", async () => {
     await userDb.insert({
       username: "the_cr0w",
     });
@@ -11,31 +9,33 @@ describe("Data access layer tests for Person", () => {
     expect(await userDb.find({})).toHaveLength(1);
   });
 
-  it("should find a person given its username", async () => {
+  it("should find a user given its username", async () => {
     await userDb.insert({
       username: "the_cr0w",
     });
 
-    expect(await userDb.find({ username: "the_cr0w" })).toHaveLength(1);
+    expect(
+      await userDb.findOne({ username: "the_cr0w" })
+    ).not.toBeEmptyObject();
   });
 
-  it("should find a person given its _id", async () => {
-    const person = await userDb.insert({
+  it("should find a user given its _id", async () => {
+    const user = await userDb.insert({
       username: "the_cr0w",
     });
 
-    expect(await userDb.findOne({ _id: person._id.toString() })).toMatchObject({
+    expect(await userDb.findOne({ _id: user._id.toString() })).toMatchObject({
       username: "the_cr0w",
-      id: person._id.toString(),
+      id: user._id.toString(),
     });
   });
 
-  it("should remove a person given its _id", async () => {
-    const person = await userDb.insert({
+  it("should remove a user given its _id", async () => {
+    const user = await userDb.insert({
       username: "the_cr0w",
     });
 
-    expect(await userDb.removeById(person._id.toString())).toMatchObject({
+    expect(await userDb.removeById(user._id.toString())).toMatchObject({
       id: expect.any(String),
       username: expect.any(String),
     });

@@ -10,7 +10,7 @@
     "dev": "concurrently npm:watch*",
     "watch": "nodemon -q dist/server.js",
     "watch-ts": "npx tsc --watch",
-    "test": "jest --randomize --seed 1234"
+    "test": "jest --randomize --runInBand"
   },
   "keywords": [
     "freecodecamp",

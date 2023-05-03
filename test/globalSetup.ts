@@ -2,7 +2,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import * as mongoose from "mongoose";
 import config from "../src/utils/config";
 
-export = async function globalSetup() {
+export default async function globalSetup() {
   if (config.Memory) {
     const instance = await MongoMemoryServer.create();
     const uri = instance.getUri();
@@ -12,7 +12,7 @@ export = async function globalSetup() {
     process.env.MONGO_URI = `mongodb://${config.IP}:${config.Port}`;
   }
 
-  // await mongoose.connect(`${process.env.MONGO_URI}/${config.Database}`);
-  // await mongoose.connection.db.dropDatabase();
-  // await mongoose.disconnect();
-};
+  await mongoose.connect(`${process.env.MONGO_URI}/${config.Database}`);
+  await mongoose.connection?.db.dropDatabase();
+  await mongoose.disconnect();
+}

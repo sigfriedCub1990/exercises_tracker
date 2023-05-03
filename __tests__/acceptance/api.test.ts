@@ -1,7 +1,7 @@
 import supertest from "supertest";
 
 import app from "../../src/app";
-import { exerciseDb, userDb } from "../../src/data-access";
+import { userDb } from "../../src/data-access";
 
 describe("API tests", () => {
   it("should have CORS enabled", async () => {
@@ -13,8 +13,6 @@ describe("API tests", () => {
   });
 
   describe("when requesting /api/users", () => {
-    afterEach(async () => await userDb.removeMany({}));
-
     describe("when POST to /api/users", () => {
       it("should create a new user", async () => {
         const response = await supertest(app)
@@ -43,10 +41,6 @@ describe("API tests", () => {
   });
 
   describe("when POST to /api/users/:_id/exercises", () => {
-    afterEach(async () => {
-      await Promise.all([userDb.removeMany({}), exerciseDb.removeMany({})]);
-    });
-
     it("should return user with exercise field", async () => {
       const user = await userDb.insert({ username: "the_cr0w" });
       const response = await supertest(app)
@@ -65,10 +59,6 @@ describe("API tests", () => {
   });
 
   describe("when requesting /api/users/:_id/logs", () => {
-    afterEach(async () => {
-      await Promise.all([userDb.removeMany({}), exerciseDb.removeMany({})]);
-    });
-
     it("should return user with log array field with all exercises in it", async () => {
       const testApp = supertest(app);
       const user = await userDb.insert({ username: "the_cr0w" });

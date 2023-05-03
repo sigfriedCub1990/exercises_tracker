@@ -1,9 +1,7 @@
-import { userDb } from "../../src/data-access";
-import createExercise from "../../src/use-cases/exercises/create-exercise";
+import { userDb } from "../../../src/data-access";
+import createExercise from "../../../src/use-cases/exercises/create-exercise";
 
 describe("Create Exercise use case tests", () => {
-  afterEach(async () => userDb.removeMany({}));
-
   it("should create an Exercise an associate it to a User", async () => {
     const person = await userDb.insert({
       username: "the_cr0w",

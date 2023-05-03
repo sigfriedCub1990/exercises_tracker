@@ -1,12 +1,8 @@
-import getLog from "../../src/use-cases/user/get-log";
-import { userDb, exerciseDb } from "../../src/data-access";
+import getLog from "../../../src/use-cases/user/get-log";
+import { userDb, exerciseDb } from "../../../src/data-access";
 import { Types } from "mongoose";
 
 describe("Get Log use case tests", () => {
-  afterEach(async () => {
-    await Promise.all([userDb.removeMany({}), exerciseDb.removeMany({})]);
-  });
-
   it("should return a Person with all its exercises", async () => {
     const person = await userDb.insert({ username: "the_cr0w" });
     const [exercise1, exercise2] = await Promise.all([
