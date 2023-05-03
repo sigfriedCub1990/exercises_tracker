@@ -1,6 +1,7 @@
 import supertest from "supertest";
 
 import app from "../../src/app";
+import { userDb } from "../../src/data-access";
 
 describe("API tests", () => {
   it("should have CORS enabled", async () => {
@@ -12,10 +13,12 @@ describe("API tests", () => {
   });
 
   describe("when requesting /api/users", () => {
+    afterEach(async () => await userDb.removeMany({}));
+
     describe("when POST to /api/users", () => {
       it("should create a new user", async () => {
         const response = await supertest(app)
-          .post("/api/user")
+          .post("/api/users")
           .send("username=pandushki");
 
         expect(response.body).toContainAllKeys(["_id", "username"]);
@@ -23,7 +26,19 @@ describe("API tests", () => {
     });
 
     describe("when GET to /api/users", () => {
-      it.todo("should return an array of users");
+      beforeAll(async () => {
+        await Promise.all([
+          userDb.insert({ username: "bob" }),
+          userDb.insert({ username: "alice" }),
+        ]);
+      });
+
+      it("should return an array of users", async () => {
+        const response = await supertest(app).get("/api/users");
+
+        expect(response.body).toHaveLength(2);
+        expect(response.body[0]).toContainAllKeys(["_id", "username"]);
+      });
     });
   });
 

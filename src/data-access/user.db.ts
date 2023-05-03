@@ -8,8 +8,9 @@ import * as r from "ramda";
 // a union type of the possible fields that
 // we can populate.
 interface Options {
-  populate?: [string];
+  populate?: Array<string>;
   sort?: string;
+  select?: Array<string>;
 }
 
 export default function makeUserDb({ User }: { User: Model<IUser> }) {
@@ -33,9 +34,11 @@ export default function makeUserDb({ User }: { User: Model<IUser> }) {
   }
 
   async function find(filter: FilterQuery<IUser>, options: Options = {}) {
-    const { populate, sort } = options;
+    const { populate, sort, select } = options;
     const query = User.find(filter);
+
     if (sort) query.sort(sort);
+    if (select) query.select(select);
 
     r.forEach(
       (p: string) => query.populate<{ p: Array<IExercise> }>(p),

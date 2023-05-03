@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import createUser from "../use-cases/user/create-user";
+import getUsers from "../use-cases/user/get-users";
 
 const UserController = {
   createUser: async (req: Request, res: Response) => {
@@ -9,7 +10,11 @@ const UserController = {
     return res.json(user);
   },
 
-  getUsers: async (req: Request, res: Response) => {},
+  getUsers: async (_req: Request, res: Response) => {
+    const users = await getUsers();
+
+    return res.json(users);
+  },
 };
 
 export default UserController;
