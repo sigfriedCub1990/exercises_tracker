@@ -8,7 +8,7 @@ export default async function (
 ) {
   try {
     if (exerciseData?.date) {
-      exerciseData.date = new Date(exerciseData.date).toDateString();
+      exerciseData.date = new Date(exerciseData.date);
     }
 
     const exercise = await exerciseDb.insert({
@@ -28,7 +28,7 @@ export default async function (
       username: user?.username,
       description: exercise?.description,
       duration: exercise?.duration,
-      date: exercise?.date,
+      date: exercise?.date?.toDateString(),
     };
   } catch (error) {
     console.log(error);

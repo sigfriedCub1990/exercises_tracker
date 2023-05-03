@@ -22,26 +22,4 @@ describe("Create Exercise use case tests", () => {
       ]);
     });
   });
-
-  describe("when date parameter is provided in yyyy-mm-dd format", () => {
-    it("should create an Exercise with a default date", async () => {
-      const person = await userDb.insert({
-        username: "the_cr0w",
-      });
-
-      const exercise = await createExercise(person._id, {
-        duration: 60,
-        description: "Running",
-        date: "2019-04-27",
-      });
-
-      expect(exercise).toContainAllKeys([
-        "_id",
-        "username",
-        "description",
-        "duration",
-        "date",
-      ]);
-    });
-  });
 });

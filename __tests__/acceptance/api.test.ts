@@ -41,20 +41,41 @@ describe("API tests", () => {
   });
 
   describe("when POST to /api/users/:_id/exercises", () => {
-    it("should return user with exercise field", async () => {
-      const user = await userDb.insert({ username: "the_cr0w" });
-      const response = await supertest(app)
-        .post(`/api/users/${user._id}/exercises`)
-        .send("description=Jogging")
-        .send("duration=60");
+    describe("when date is not provided", () => {
+      it("should return user with exercise field", async () => {
+        const user = await userDb.insert({ username: "the_cr0w" });
+        const response = await supertest(app)
+          .post(`/api/users/${user._id}/exercises`)
+          .send("description=Jogging")
+          .send("duration=60");
 
-      expect(response.body).toContainAllKeys([
-        "_id",
-        "username",
-        "description",
-        "duration",
-        "date",
-      ]);
+        expect(response.body).toContainAllKeys([
+          "_id",
+          "username",
+          "description",
+          "duration",
+          "date",
+        ]);
+      });
+    });
+
+    describe("when date is provided in yyyy-mm-dd format", () => {
+      it("should return user with exercise field", async () => {
+        const user = await userDb.insert({ username: "the_cr0w" });
+        const response = await supertest(app)
+          .post(`/api/users/${user._id}/exercises`)
+          .send("description=Jogging")
+          .send("duration=60")
+          .send("date=2019-04-27");
+
+        expect(response.body).toContainAllKeys([
+          "_id",
+          "username",
+          "description",
+          "duration",
+          "date",
+        ]);
+      });
     });
   });
 

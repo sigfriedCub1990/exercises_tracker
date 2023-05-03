@@ -3,7 +3,7 @@ import { Schema, Types } from "mongoose";
 interface IExercise {
   description: string;
   duration: number;
-  date?: string;
+  date?: Date;
   username?: Types.ObjectId;
 }
 
@@ -17,8 +17,8 @@ const exerciseSchema = new Schema<IExercise>({
     required: true,
   },
   date: {
-    type: String,
-    default: new Date().toDateString(),
+    type: Date,
+    default: new Date(),
   },
   username: { type: Schema.Types.ObjectId, ref: "User" },
 });
