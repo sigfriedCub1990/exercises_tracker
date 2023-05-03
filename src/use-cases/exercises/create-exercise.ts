@@ -7,6 +7,10 @@ export default async function (
   exerciseData: IExercise
 ) {
   try {
+    if (exerciseData?.date) {
+      exerciseData.date = new Date(exerciseData.date).toDateString();
+    }
+
     const exercise = await exerciseDb.insert({
       username: userId,
       ...exerciseData,
