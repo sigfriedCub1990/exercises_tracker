@@ -5,5 +5,6 @@ const Router = express.Router();
 
 Router.post("/api/users", UserController.createUser);
 Router.get("/api/users", UserController.getUsers);
+Router.post("/api/users/:_id/exercises", UserController.createExercise);
 
 export default Router;

@@ -42,8 +42,24 @@ describe("API tests", () => {
     });
   });
 
-  describe("when requesting /api/users/:_id/exercises", () => {
-    it.todo("should return user with exercise field");
+  describe("when POST to /api/users/:_id/exercises", () => {
+    afterEach(async () => await userDb.removeMany({}));
+
+    it("should return user with exercise field", async () => {
+      const user = await userDb.insert({ username: "the_cr0w" });
+      const response = await supertest(app)
+        .post(`/api/users/${user._id}/exercises`)
+        .send("description=Jogging")
+        .send("duration=60");
+
+      expect(response.body).toContainAllKeys([
+        "_id",
+        "username",
+        "description",
+        "duration",
+        "date",
+      ]);
+    });
   });
 
   describe("when requesting /api/users/:_id/logs", () => {

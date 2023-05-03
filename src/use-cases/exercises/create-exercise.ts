@@ -1,5 +1,5 @@
 import { IExercise } from "../../models/exercise";
-import { exerciseDb } from "../../data-access/";
+import { exerciseDb, userDb } from "../../data-access/";
 import { Types } from "mongoose";
 
 export default async function (
@@ -12,7 +12,15 @@ export default async function (
       ...exerciseData,
     });
 
-    return exercise;
+    const user = await userDb.findOne({ _id: userId });
+
+    return {
+      _id: exercise?._id,
+      username: user?.username,
+      description: exercise?.description,
+      duration: exercise?.duration,
+      date: exercise?.date,
+    };
   } catch (error) {
     console.log(error);
   }

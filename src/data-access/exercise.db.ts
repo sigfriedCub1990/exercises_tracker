@@ -1,5 +1,12 @@
 import { FilterQuery, Model } from "mongoose";
 import { IExercise } from "../models/exercise";
+import * as r from "ramda";
+
+interface Options {
+  populate?: Array<string>;
+  sort?: string;
+  select?: Array<string>;
+}
 
 export default function makeExerciseDb({
   Exercise,
@@ -14,6 +21,22 @@ export default function makeExerciseDb({
 
   async function find(filter: FilterQuery<IExercise>) {
     const query = Exercise.find(filter);
+
+    return query.exec();
+  }
+
+  async function findOne(
+    filter: FilterQuery<IExercise>,
+    options: Options = {}
+  ) {
+    const { populate, sort } = options;
+    const query = Exercise.findOne(filter);
+    if (sort) query.sort(sort);
+
+    r.forEach(
+      (p: string) => query.populate<{ p: Array<IExercise> }>(p),
+      populate || []
+    );
 
     return query.exec();
   }
@@ -34,6 +57,7 @@ export default function makeExerciseDb({
     insert,
     find,
     findById,
+    findOne,
     removeMany,
     removeById,
   };
