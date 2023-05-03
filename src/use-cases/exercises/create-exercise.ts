@@ -14,6 +14,11 @@ export default async function (
 
     const user = await userDb.findOne({ _id: userId });
 
+    const logs: Array<Types.ObjectId> = user?.log || [];
+    logs.push(exercise._id);
+
+    await userDb.update({ _id: user?._id }, { log: logs });
+
     return {
       _id: exercise?._id,
       username: user?.username,

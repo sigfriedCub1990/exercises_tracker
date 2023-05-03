@@ -1,5 +1,3 @@
-import { Types } from "mongoose";
-
 import { userDb } from "../../src/data-access";
 import createExercise from "../../src/use-cases/exercises/create-exercise";
 
@@ -16,6 +14,6 @@ describe("Create Exercise use case tests", () => {
       description: "Running",
     });
 
-    expect(exercise).toHaveProperty("username", expect.any(Types.ObjectId));
+    expect(exercise).toHaveProperty("username", expect.any(String));
   });
 });
