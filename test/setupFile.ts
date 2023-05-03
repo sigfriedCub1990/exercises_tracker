@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 beforeAll(async () => {
-  // @ts-ignore
-  await mongoose.connect(process.env["MONGO_URI"]);
+  const mongoURI = process.env["MONGO_URI"] || "";
+  await mongoose.connect(mongoURI);
 });
 
 afterAll(async () => {
