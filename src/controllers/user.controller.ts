@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
+import { Types } from "mongoose";
+
 import createUser from "../use-cases/user/create-user";
 import getUsers from "../use-cases/user/get-users";
 import createExercise from "../use-cases/exercises/create-exercise";
-import { Types } from "mongoose";
+import getLog from "../use-cases/user/get-log";
 
 const UserController = {
   createUser: async (req: Request, res: Response) => {
@@ -29,6 +31,13 @@ const UserController = {
     const users = await getUsers();
 
     return res.json(users);
+  },
+
+  getUserLogs: async (req: Request, res: Response) => {
+    const { _id } = req.params;
+    const userLogs = await getLog(_id);
+
+    return res.json(userLogs);
   },
 };
 

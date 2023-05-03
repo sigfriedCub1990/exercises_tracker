@@ -1,7 +1,7 @@
 import supertest from "supertest";
 
 import app from "../../src/app";
-import { userDb } from "../../src/data-access";
+import { exerciseDb, userDb } from "../../src/data-access";
 
 describe("API tests", () => {
   it("should have CORS enabled", async () => {
@@ -43,7 +43,9 @@ describe("API tests", () => {
   });
 
   describe("when POST to /api/users/:_id/exercises", () => {
-    afterEach(async () => await userDb.removeMany({}));
+    afterEach(async () => {
+      await Promise.all([userDb.removeMany({}), exerciseDb.removeMany({})]);
+    });
 
     it("should return user with exercise field", async () => {
       const user = await userDb.insert({ username: "the_cr0w" });
@@ -63,7 +65,34 @@ describe("API tests", () => {
   });
 
   describe("when requesting /api/users/:_id/logs", () => {
-    it.todo("should return user with log array field with all exercises in it");
+    afterEach(async () => {
+      await Promise.all([userDb.removeMany({}), exerciseDb.removeMany({})]);
+    });
+
+    it("should return user with log array field with all exercises in it", async () => {
+      const testApp = supertest(app);
+      const user = await userDb.insert({ username: "the_cr0w" });
+      await testApp
+        .post(`/api/users/${user._id}/exercises`)
+        .send("description=Jogging")
+        .send("duration=60");
+      await testApp
+        .post(`/api/users/${user._id}/exercises`)
+        .send("description=Running")
+        .send("duration=50");
+
+      const response = await testApp.get(`/api/users/${user._id}/logs`);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toContainAllKeys([
+        "_id",
+        "count",
+        "username",
+        "log",
+      ]);
+      expect(response.body.log).toHaveLength(2);
+    });
+
     it.todo("should return log when filtering parameters are provided");
   });
 });
