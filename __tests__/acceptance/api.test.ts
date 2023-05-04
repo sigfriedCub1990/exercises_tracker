@@ -5,7 +5,7 @@ import { userDb } from "../../src/data-access";
 
 describe("API tests", () => {
   it("should have CORS enabled", async () => {
-    const response = await supertest(app).get("/api/whoami");
+    const response = await supertest(app).get("/api/users");
 
     expect(Object.keys(response.headers)).toContain(
       "access-control-allow-origin"

@@ -20,14 +20,10 @@ app.use(cors());
 const mongoURI = process.env.MONGO_URI || "";
 connectDb(mongoURI);
 
-app.get("/", (req, res) => {
-  res.json({ message: "Hello, world!" });
-});
-
 app.use(userRouter);
 
 // eslint-disable-next-line
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res
     .status(404)
     .json({ message: "This is not the route you're looking for." });
