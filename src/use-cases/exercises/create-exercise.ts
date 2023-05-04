@@ -24,7 +24,7 @@ export default async function (
     await userDb.update({ _id: user?._id }, { log: logs });
 
     return {
-      _id: exercise?._id,
+      _id: user?.id,
       username: user?.username,
       description: exercise?.description,
       duration: exercise?.duration,
