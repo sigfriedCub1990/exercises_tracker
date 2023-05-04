@@ -1,7 +1,7 @@
 {
-  "name": "headers_parser_microservice",
+  "name": "exercises_tracker_api",
   "version": "1.0.0",
-  "description": "A microservice that returns information contained in the request headers",
+  "description": "An API to keep track of the exercises",
   "main": "index.js",
   "scripts": {
     "start": "npm run build && npm run start-server",
@@ -14,7 +14,7 @@
   },
   "keywords": [
     "freecodecamp",
-    "timestamp_microservice"
+    "exercises_tracker_api"
   ],
   "author": "Ruben S. Garcia",
   "license": "MIT",
