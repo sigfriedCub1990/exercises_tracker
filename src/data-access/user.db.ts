@@ -9,10 +9,10 @@ interface Options {
 }
 
 export default function makeUserDb({ User }: { User: Model<IUser> }) {
-  async function insert(personData: IUser) {
-    const person = new User(personData);
+  async function insert(userData: IUser) {
+    const user = new User(userData);
 
-    return person.save();
+    return user.save();
   }
 
   async function findOne(filter: FilterQuery<IUser>, options: Options = {}) {

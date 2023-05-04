@@ -3,26 +3,26 @@ import { userDb, exerciseDb } from "../../../src/data-access";
 import { Types } from "mongoose";
 
 describe("Get Log use case tests", () => {
-  it("should return a Person with all its exercises", async () => {
-    const person = await userDb.insert({ username: "the_cr0w" });
+  it("should return a User with all its exercises", async () => {
+    const user = await userDb.insert({ username: "the_cr0w" });
     const [exercise1, exercise2] = await Promise.all([
       exerciseDb.insert({
-        username: person._id,
+        username: user._id,
         description: "Running",
         duration: 60,
       }),
       exerciseDb.insert({
-        username: person._id,
+        username: user._id,
         description: "Jogging",
         duration: 50,
       }),
     ]);
     await userDb.update(
-      { _id: person._id },
+      { _id: user._id },
       { log: [exercise1._id, exercise2._id] }
     );
 
-    const actual = await getLog(person._id.toString());
+    const actual = await getLog(user._id.toString());
 
     expect(actual).toMatchObject({
       _id: expect.any(Types.ObjectId),
