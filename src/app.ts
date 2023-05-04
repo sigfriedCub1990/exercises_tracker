@@ -20,13 +20,6 @@ app.use(cors());
 const mongoURI = process.env.MONGO_URI || "";
 connectDb(mongoURI);
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  if (req.method === "POST") {
-    console.log(`${req.headers["content-type"]}`);
-  }
-  next();
-});
-
 app.use(userRouter);
 
 // eslint-disable-next-line
