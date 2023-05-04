@@ -7,12 +7,8 @@ const onConnected = () => {
 };
 const onError = (error: Error) => console.error(error.message);
 
-let db;
 const connectDB = async (mongoURL: string) => {
-  db = mongoose
-    .createConnection(mongoURL)
-    .on("connected", onConnected)
-    .on("error", onError);
+  mongoose.connect(`${mongoURL}`).then((_) => console.log("DB Connected"));
 };
 
-export { connectDB as default, db };
+export { connectDB as default };

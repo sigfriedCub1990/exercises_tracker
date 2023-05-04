@@ -17,7 +17,7 @@ describe("API tests", () => {
       it("should create a new user", async () => {
         const response = await supertest(app)
           .post("/api/users")
-          .send("username=pandushki");
+          .send({ username: "pandushki" });
 
         expect(response.body).toContainAllKeys(["_id", "username"]);
       });
@@ -46,8 +46,7 @@ describe("API tests", () => {
         const user = await userDb.insert({ username: "the_cr0w" });
         const response = await supertest(app)
           .post(`/api/users/${user._id}/exercises`)
-          .send("description=Jogging")
-          .send("duration=60");
+          .send({ description: "Jogging", duration: 60 });
 
         expect(response.body).toContainAllKeys([
           "_id",
@@ -64,9 +63,7 @@ describe("API tests", () => {
         const user = await userDb.insert({ username: "the_cr0w" });
         const response = await supertest(app)
           .post(`/api/users/${user._id}/exercises`)
-          .send("description=Jogging")
-          .send("duration=60")
-          .send("date=2019-04-27");
+          .send({ description: "Jogging", duration: 60, date: "2019-04-27" });
 
         expect(response.body).toContainAllKeys([
           "_id",
@@ -85,12 +82,10 @@ describe("API tests", () => {
       const user = await userDb.insert({ username: "the_cr0w" });
       await testApp
         .post(`/api/users/${user._id}/exercises`)
-        .send("description=Jogging")
-        .send("duration=60");
+        .send({ description: "Jogging", duration: 60 });
       await testApp
         .post(`/api/users/${user._id}/exercises`)
-        .send("description=Running")
-        .send("duration=50");
+        .send({ description: "Running", duration: 50 });
 
       const response = await testApp.get(`/api/users/${user._id}/logs`);
 
@@ -110,16 +105,13 @@ describe("API tests", () => {
         const user = await userDb.insert({ username: "the_cr0w" });
         await testApp
           .post(`/api/users/${user._id}/exercises`)
-          .send("description=Jogging")
-          .send("duration=60");
+          .send({ description: "Jogging", duration: 60 });
         await testApp
           .post(`/api/users/${user._id}/exercises`)
-          .send("description=Running")
-          .send("duration=50");
+          .send({ description: "Running", duration: 50 });
         await testApp
           .post(`/api/users/${user._id}/exercises`)
-          .send("description=Meditate")
-          .send("duration=60");
+          .send({ description: "Meditate", duration: 60 });
 
         const response = await testApp.get(
           `/api/users/${user._id}/logs?limit=2`
@@ -139,22 +131,16 @@ describe("API tests", () => {
         const user = await userDb.insert({ username: "the_cr0w" });
         await testApp
           .post(`/api/users/${user._id}/exercises`)
-          .send("description=Jogging")
-          .send("duration=60");
+          .send({ description: "Jogging", duration: 60 });
         await testApp
           .post(`/api/users/${user._id}/exercises`)
-          .send("description=Running")
-          .send("duration=50");
+          .send({ description: "Running", duration: 50 });
         await testApp
           .post(`/api/users/${user._id}/exercises`)
-          .send("description=Meditate")
-          .send("duration=60")
-          .send("date=2019-04-27");
+          .send({ description: "Meditate", duration: 60, date: "2019-04-27" });
         await testApp
           .post(`/api/users/${user._id}/exercises`)
-          .send("description=Meditate")
-          .send("duration=60")
-          .send("date=2019-04-29");
+          .send({ description: "Meditate", duration: 60, date: "2019-04-29" });
 
         const response = await testApp.get(
           `/api/users/${user._id}/logs?from=2019-01-31&to=2019-12-31&limit=1`
