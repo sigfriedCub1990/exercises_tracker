@@ -104,6 +104,70 @@ describe("API tests", () => {
       expect(response.body.log).toHaveLength(2);
     });
 
-    it.todo("should return log when filtering parameters are provided");
+    describe("when filters are provided", () => {
+      it("should return 2 logs when limit is set to 2", async () => {
+        const testApp = supertest(app);
+        const user = await userDb.insert({ username: "the_cr0w" });
+        await testApp
+          .post(`/api/users/${user._id}/exercises`)
+          .send("description=Jogging")
+          .send("duration=60");
+        await testApp
+          .post(`/api/users/${user._id}/exercises`)
+          .send("description=Running")
+          .send("duration=50");
+        await testApp
+          .post(`/api/users/${user._id}/exercises`)
+          .send("description=Meditate")
+          .send("duration=60");
+
+        const response = await testApp.get(
+          `/api/users/${user._id}/logs?limit=2`
+        );
+
+        expect(response.body).toContainAllKeys([
+          "_id",
+          "count",
+          "username",
+          "log",
+        ]);
+        expect(response.body.log).toHaveLength(2);
+      });
+
+      it("should return 1 log when from, to and limit are provided", async () => {
+        const testApp = supertest(app);
+        const user = await userDb.insert({ username: "the_cr0w" });
+        await testApp
+          .post(`/api/users/${user._id}/exercises`)
+          .send("description=Jogging")
+          .send("duration=60");
+        await testApp
+          .post(`/api/users/${user._id}/exercises`)
+          .send("description=Running")
+          .send("duration=50");
+        await testApp
+          .post(`/api/users/${user._id}/exercises`)
+          .send("description=Meditate")
+          .send("duration=60")
+          .send("date=2019-04-27");
+        await testApp
+          .post(`/api/users/${user._id}/exercises`)
+          .send("description=Meditate")
+          .send("duration=60")
+          .send("date=2019-04-29");
+
+        const response = await testApp.get(
+          `/api/users/${user._id}/logs?from=2019-01-31&to=2019-12-31&limit=1`
+        );
+
+        expect(response.body).toContainAllKeys([
+          "_id",
+          "count",
+          "username",
+          "log",
+        ]);
+        expect(response.body.log).toHaveLength(1);
+      });
+    });
   });
 });

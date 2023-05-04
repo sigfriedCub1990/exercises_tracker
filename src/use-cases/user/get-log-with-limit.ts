@@ -1,12 +1,19 @@
 import { HydratedDocument } from "mongoose";
 
-import buildLogs from "../../lib/build-logs";
 import { userDb } from "../../data-access";
+import buildLogs from "../../lib/build-logs";
 import { IUser } from "src/models/user";
 
-export default async function (_id: string) {
+interface Filters {
+  match?: unknown;
+}
+
+export default async function (_id: string, filters: Filters = {}) {
   try {
-    const user = await userDb.findOne({ _id }, { populate: { path: "log" } });
+    const user = await userDb.findOne(
+      { _id },
+      { populate: { path: "log", ...filters } }
+    );
 
     const logs = buildLogs(user as HydratedDocument<IUser>);
 
